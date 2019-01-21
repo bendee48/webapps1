@@ -1,0 +1,7 @@
+<h1>Thanks <%= @name %>, your name has been added to <%= @file %>, and below.</h1>
+
+<ul>
+  <% @name_list.each do |name| %>
+  <li><%= name %></li>
+  <% end %>
+</ul>
