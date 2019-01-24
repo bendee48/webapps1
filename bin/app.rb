@@ -1,12 +1,15 @@
 require 'sinatra'
+require './lib/webapps1/validator.rb'
+
 
 set :port, 8080
 set :static, true
 set :public_folder, "static"
 set :views, "views"
+enable :sessions
 
 get '/' do
-    return 'Hello World'
+    "Hello"
 end
 
 get '/hello/' do
@@ -87,13 +90,22 @@ end
 get '/names2/' do
   @name = params[:name]
   @names = read_names2
-
+  @message = session.delete(:message) # Delete returns the messages, so message will show first time
   erb :names2
 end
 
 post '/names2/' do
   @name = params[:name]
+  @names = read_names2
   @file = "names2.txt"
-  store_name2(@file, @name)
-  redirect "/names2/?name=#{@name}"
+  validator = NameValidator.new(@name, @names)
+
+  if validator.valid?
+    store_name2(@file, @name)
+    session[:message] = "Successfully stored the name #{@name}"
+    redirect "/names2/?name=#{@name}"
+  else
+    @message = validator.message
+    erb :names2
+  end
 end

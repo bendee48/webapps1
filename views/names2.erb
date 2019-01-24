@@ -1,5 +1,9 @@
-<% if @name %>
-<h4>Hello <%= @name %>!</h4>
+<% unless @name.to_s.empty? %>
+<h3>Hello <%= @name %>!</h3>
+<% end %>
+
+<% if @message %>
+<h6><%= @message %></h6>
 <% end %>
 
 <form action="/names2/" method="post">
