@@ -1,0 +1,14 @@
+<% if @name %>
+<h4>Hello <%= @name %>!</h4>
+<% end %>
+
+<form action="/names2/" method="post">
+  <input type="text" name="name" value="<%= @name %>">
+  <input type="submit">
+</form>
+
+<ul>
+  <% @names.each do |x| %>
+  <li><%= x %></li>
+  <% end %>
+</ul>

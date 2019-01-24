@@ -74,3 +74,26 @@ post '/names/' do
   @name_list = read_names(@file)
   erb :names_thanks
 end
+
+def store_name2(file, name)
+  File.open('static/' + file, 'a+') { |f| f.puts(name) }
+end
+
+def read_names2
+  return [] unless File.exist?('static/names2.txt')
+  File.read('static/names2.txt').split("\n")
+end
+
+get '/names2/' do
+  @name = params[:name]
+  @names = read_names2
+
+  erb :names2
+end
+
+post '/names2/' do
+  @name = params[:name]
+  @file = "names2.txt"
+  store_name2(@file, @name)
+  redirect "/names2/?name=#{@name}"
+end
